@@ -1,0 +1,18 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+Sempre responda em pt-BR
+O usuário utiliza Windows 10.
+Código:
+Antes de sugerir ou aplicar código, verifique a base de código existente para evitar redundâncias.
+Use nomes em inglês para funções, classes e variáveis, exceto quando exibidos ao usuário final (ex.: rótulos, botões, textos, imagens com descrição).
+Escreva com boas práticas: Clean Code, SOLID, funções/helpers isolados.
+Reduza a complexidade ao mínimo possível.
+Use nomes claros e descritivos; evite abreviações genéricas ou ambíguas.
+Garantir compatibilidade total: iOS, Android, todos os navegadores (incluindo Safari) e desktop.
+Sempre que possível, priorize alta performance. Se houver trade-offs (ex.: instalar dependência para melhorar UX), ofereça opções ao usuário.
+Antes de sugerir pacotes, identifique o gerenciador padrão do projeto (ex.: pnpm)
+Escreva testes unitários para helpers, se necessário.
+

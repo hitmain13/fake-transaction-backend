@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Transfer {
+  id            String     @id @default(uuid())
+  hash          String     @unique
+  value         String
+  pix           String
+  time          String
+  originName    String
+  originBank    String
+  originAgency  String
+  originAccount String
+  originCpf     String
+  destName      String
+  destBank      String
+  destAgency    String
+  destAccount   String
+  destCpf       String
+  transactionId String
+  createdAt     DateTime   @default(now())
+  locations     Location[]
+}
+
+model Location {
+  id        String   @id @default(uuid())
+  hash      String
+  latitude  Float
+  longitude Float
+  createdAt DateTime @default(now())
+  transfer  Transfer @relation(fields: [hash], references: [hash], onDelete: Cascade)
+}
