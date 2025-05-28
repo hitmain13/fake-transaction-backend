@@ -32,10 +32,15 @@ model Transfer {
 }
 
 model Location {
-  id        String   @id @default(uuid())
-  hash      String
-  latitude  Float
-  longitude Float
-  createdAt DateTime @default(now())
-  transfer  Transfer @relation(fields: [hash], references: [hash], onDelete: Cascade)
+  id               String   @id @default(cuid())
+  hash             String
+  latitude         Float
+  longitude        Float
+  accuracy         Float
+  altitude         Float? // opcional
+  altitudeAccuracy Float?
+  heading          Float?
+  speed            Float?
+  createdAt        DateTime @default(now())
+  transfer         Transfer @relation(fields: [hash], references: [hash], onDelete: Cascade)
 }

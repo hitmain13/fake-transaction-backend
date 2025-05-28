@@ -15,4 +15,9 @@ export class LocationController {
   async getByHash(@Param('hash') hash: string) {
     return this.locationService.getLocationsByHash(hash)
   }
+
+  @Get()
+  async getAll() {
+    return this.locationService.getAllLocations()
+  }
 }
