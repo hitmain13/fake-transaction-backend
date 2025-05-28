@@ -3,14 +3,14 @@ import { CreateTransferDto } from './dto/create-transfer.dto';
 export declare class TransferController {
     private readonly transferService;
     constructor(transferService: TransferService);
-    create(body: CreateTransferDto): Promise<{
+    create(body: CreateTransferDto, auth: string): Promise<{
         hash: string;
     }>;
-    getByHash(hash: string): Promise<{
-        pix: string;
+    getByHash(hash: string, auth: string): Promise<{
         id: string;
         hash: string;
         value: string;
+        pix: string;
         time: string;
         originName: string;
         originBank: string;
@@ -24,5 +24,12 @@ export declare class TransferController {
         destCpf: string;
         transactionId: string;
         createdAt: Date;
+    }>;
+    deleteByHash(hash: string, auth: string): Promise<{
+        message: string;
+        hash: string;
+    }>;
+    deleteAll(auth: string): Promise<{
+        message: string;
     }>;
 }

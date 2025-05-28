@@ -19,10 +19,19 @@ let TransferService = class TransferService {
         this.prisma = prisma;
     }
     async createTransfer(data) {
+        if (!data) {
+            console.log('Data is required');
+            throw new common_1.BadRequestException('Data is required');
+        }
+        const existing = await this.findExistingTransfer(data);
+        if (existing) {
+            console.log('Returned a transfer hash that was already created!', existing.hash);
+            return existing.hash;
+        }
         const hash = (0, hash_helper_1.generateTransferHash)(data);
         const exists = await this.prisma.transfer.findUnique({ where: { hash } });
         if (exists) {
-            throw new common_1.BadRequestException('Transfer already exists');
+            return exists.hash;
         }
         await this.prisma.transfer.create({
             data: {
@@ -43,14 +52,52 @@ let TransferService = class TransferService {
                 transactionId: data.transacao_id,
             },
         });
+        console.log('Transfer created successfully!', hash);
         return hash;
+    }
+    async findExistingTransfer(data) {
+        return this.prisma.transfer.findFirst({
+            where: {
+                value: data.valor,
+                pix: data.pix,
+                time: data.horario,
+                originName: data.origem_nome,
+                originBank: data.origem_instituicao,
+                originAgency: data.origem_agencia,
+                originAccount: data.origem_conta,
+                originCpf: data.origem_cpf,
+                destName: data.destino_nome,
+                destBank: data.destino_instituicao,
+                destAgency: data.destino_agencia,
+                destAccount: data.destino_conta,
+                destCpf: data.destino_cpf,
+                transactionId: data.transacao_id,
+            },
+        });
     }
     async getTransferByHash(hash) {
         const transfer = await this.prisma.transfer.findUnique({ where: { hash } });
         if (!transfer) {
+            console.log('Transfer not found', hash);
             throw new common_1.BadRequestException('Transfer not found');
         }
         return transfer;
+    }
+    async deleteTransferByHash(hash) {
+        const transfer = await this.prisma.transfer.findUnique({ where: { hash } });
+        if (!transfer) {
+            console.log('Transfer not found', hash);
+            throw new common_1.BadRequestException('Transfer not found');
+        }
+        await this.prisma.transfer.delete({ where: { hash } });
+        console.log('Transfer deleted successfully', hash);
+        return { message: 'Transfer deleted successfully', hash };
+    }
+    async deleteAllTransfers() {
+        await this.prisma.location.deleteMany({});
+        await this.prisma.transfer.deleteMany({});
+        console.log('All transfers deleted successfully');
+        return { message: 'All transfers deleted successfully' };
     }
 };
 exports.TransferService = TransferService;

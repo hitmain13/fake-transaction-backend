@@ -4,6 +4,7 @@ export declare class TransferService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     createTransfer(data: CreateTransferDto): Promise<string>;
+    private findExistingTransfer;
     getTransferByHash(hash: string): Promise<{
         pix: string;
         id: string;
@@ -22,5 +23,12 @@ export declare class TransferService {
         destCpf: string;
         transactionId: string;
         createdAt: Date;
+    }>;
+    deleteTransferByHash(hash: string): Promise<{
+        message: string;
+        hash: string;
+    }>;
+    deleteAllTransfers(): Promise<{
+        message: string;
     }>;
 }
