@@ -9,14 +9,14 @@ export class TransferService {
 
   async createTransfer(data: CreateTransferDto): Promise<string> {
     if (!data) {
-      console.log('Data is required')
+      console.log('CREATE Transfer Data is required')
       throw new BadRequestException('Data is required')
     }
 
     // Verifica se já existe uma transferência com os mesmos dados
     const existing = await this.findExistingTransfer(data)
     if (existing) {
-      console.log('Returned a transfer hash that was already created!', existing.hash)
+      console.log('CREATE Returned a transfer hash that was already created!', existing.hash)
       return existing.hash
     }
 
@@ -45,7 +45,7 @@ export class TransferService {
         transactionId: data.transacao_id,
       },
     })
-    console.log('Transfer created successfully!', hash)
+    console.log('CREATE Transfer created successfully!', hash)
     return hash
   }
 
@@ -73,27 +73,28 @@ export class TransferService {
   async getTransferByHash(hash: string) {
     const transfer = await this.prisma.transfer.findUnique({ where: { hash } })
     if (!transfer) {
-      console.log('Transfer not found', hash)
+      console.log('GET Transfer not found', hash)
       throw new BadRequestException('Transfer not found')
     }
+    console.log('GET Transfer found', hash)
     return transfer
   }
 
   async deleteTransferByHash(hash: string) {
     const transfer = await this.prisma.transfer.findUnique({ where: { hash } })
     if (!transfer) {
-      console.log('Transfer not found', hash)
+      console.log('DELETE Transfer not found', hash)
       throw new BadRequestException('Transfer not found')
     }
     await this.prisma.transfer.delete({ where: { hash } })
-    console.log('Transfer deleted successfully', hash)
+    console.log('DELETE Transfer deleted successfully', hash)
     return { message: 'Transfer deleted successfully', hash }
   }
 
   async deleteAllTransfers() {
     await this.prisma.location.deleteMany({})
     await this.prisma.transfer.deleteMany({})
-    console.log('All transfers deleted successfully')
+    console.log('DELETE All transfers deleted successfully')
     return { message: 'All transfers deleted successfully' }
   }
 }
