@@ -28,6 +28,12 @@ export class TransferController {
     return this.transferService.getTransferByHash(hash)
   }
 
+  @Get()
+  async getAll(@Headers('authorization') auth: string) {
+    checkAuth(auth)
+    return this.transferService.getAllTransfers()
+  }
+
   @Delete(':hash')
   async deleteByHash(@Param('hash') hash: string, @Headers('authorization') auth: string) {
     checkAuth(auth)

@@ -80,6 +80,16 @@ export class TransferService {
     return transfer
   }
 
+  async getAllTransfers() {
+    console.log('GET All transfers')
+    const transfers = await this.prisma.transfer.findMany({
+      orderBy: {
+        time: 'desc',
+      },
+    })
+    return transfers
+  }
+
   async deleteTransferByHash(hash: string) {
     const transfer = await this.prisma.transfer.findUnique({ where: { hash } })
     if (!transfer) {
