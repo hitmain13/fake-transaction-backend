@@ -6,7 +6,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({
         origin: (origin, callback) => {
-            const allowedOrigins = [process.env.FRONTEND_URL || 'http://localhost:3000'];
+            const allowedOrigins = [process.env.FRONTEND_DOMAIN || 'http://localhost:3000'];
             if (allowedOrigins.includes(origin) || !origin)
                 callback(null, true);
             else

@@ -7,10 +7,10 @@ export declare class TransferController {
         hash: string;
     }>;
     getByHash(hash: string, auth: string): Promise<{
+        pix: string;
         id: string;
         hash: string;
         value: string;
-        pix: string;
         time: string;
         originName: string;
         originBank: string;
