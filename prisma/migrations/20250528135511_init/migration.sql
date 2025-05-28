@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Transfer" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
     "value" TEXT NOT NULL,
     "pix" TEXT NOT NULL,
@@ -16,18 +16,24 @@ CREATE TABLE "Transfer" (
     "destAccount" TEXT NOT NULL,
     "destCpf" TEXT NOT NULL,
     "transactionId" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Transfer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Location" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "latitude" REAL NOT NULL,
-    "longitude" REAL NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "Location_hash_fkey" FOREIGN KEY ("hash") REFERENCES "Transfer" ("hash") ON DELETE CASCADE ON UPDATE CASCADE
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Transfer_hash_key" ON "Transfer"("hash");
+
+-- AddForeignKey
+ALTER TABLE "Location" ADD CONSTRAINT "Location_hash_fkey" FOREIGN KEY ("hash") REFERENCES "Transfer"("hash") ON DELETE CASCADE ON UPDATE CASCADE;
