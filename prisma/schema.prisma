@@ -37,10 +37,16 @@ model Location {
   latitude         Float
   longitude        Float
   accuracy         Float
-  altitude         Float? // opcional
+  altitude         Float?
   altitudeAccuracy Float?
   heading          Float?
   speed            Float?
   createdAt        DateTime @default(now())
   transfer         Transfer @relation(fields: [hash], references: [hash], onDelete: Cascade)
+}
+
+model Password {
+  id        String   @id @default(cuid())
+  password  String
+  createdAt DateTime @default(now())
 }
